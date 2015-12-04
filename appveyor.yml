@@ -15,5 +15,9 @@ install:
   - go get golang.org/x/crypto/ssh
   - go get github.com/codegangsta/cli
 
-build_script:
+test_script:
   - go run main.go
+
+build_script:
+	- go build
+	- ls
