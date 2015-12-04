@@ -13,6 +13,7 @@ build: false
 install:
   - echo %PATH%
   - echo %GOPATH%
+  - ls
   - go version
   - go env
   - go get golang.org/x/crypto/ssh
@@ -21,4 +22,6 @@ install:
 test_script:
   - go run main.go
   - go build
+  - ls
+	- 7za a -ttar -so remote-conda-{build}.tar remote-conda.exe
   - ls
