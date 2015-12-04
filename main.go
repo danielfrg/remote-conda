@@ -23,7 +23,29 @@ func list(c *cli.Context) {
 
 func install(c *cli.Context) {
 	condaPath := c.String("conda")
-	cmd := fmt.Sprintf("%s %s %s", condaPath, "install", "-y")
+	cmd := fmt.Sprintf("%s %s %s", condaPath, "install", "-y -q")
+
+	args := c.Args()
+	if len(args) == 0 {
+		fmt.Fprintln(os.Stderr, "Error: No packages provided")
+    os.Exit(1)
+	}
+
+	for _, arg := range args {
+		cmd = cmd + " " + arg
+	}
+
+	clients := makeClients(cmd, c)
+	results := make(chan bool, len(clients))
+
+	execClients(clients, results)
+	waitResults(clients, results, c)
+	printResults(clients, c)
+}
+
+func remove(c *cli.Context) {
+	condaPath := c.String("conda")
+	cmd := fmt.Sprintf("%s %s %s", condaPath, "remove", "-y -q")
 
 	args := c.Args()
 	if len(args) == 0 {
@@ -186,6 +208,12 @@ func main() {
 			Name:     "install",
 			Usage:    "Install conda packages",
 			Action:   install,
+			Flags:    defaultFlags,
+		},
+		{
+			Name:     "remove",
+			Usage:    "Remove conda packages",
+			Action:   remove,
 			Flags:    defaultFlags,
 		},
 	}
