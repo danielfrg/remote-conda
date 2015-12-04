@@ -7,6 +7,9 @@ environment:
 
 clone_folder: c:\gopath\src\github.com\danielfrg\remote-conda
 
+# Not a .NET project
+build: false
+
 install:
   - echo %PATH%
   - echo %GOPATH%
@@ -17,7 +20,4 @@ install:
 
 test_script:
   - go run main.go
-
-build_script:
 	- go build
-	- ls
