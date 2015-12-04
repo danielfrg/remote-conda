@@ -1,0 +1,19 @@
+version: "{build}"
+
+os: Windows Server 2012 R2
+
+environment:
+  GOPATH: c:\gopath
+
+clone_folder: c:\gopath\src\github.com\danielfrg\remote-conda
+
+install:
+  - echo %PATH%
+  - echo %GOPATH%
+  - go version
+  - go env
+  - go get golang.org/x/crypto/ssh
+	- go get github.com/codegangsta/cli
+
+build_script:
+  - go run main.go
