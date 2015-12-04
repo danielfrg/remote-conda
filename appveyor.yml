@@ -13,7 +13,7 @@ install:
   - go version
   - go env
   - go get golang.org/x/crypto/ssh
-	- go get github.com/codegangsta/cli
+  - go get github.com/codegangsta/cli
 
 build_script:
   - go run main.go
