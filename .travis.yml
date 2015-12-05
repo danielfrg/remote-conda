@@ -1,0 +1,28 @@
+language: go
+
+sudo: false
+
+install:
+  - echo $PATH
+  - echo $GOPATH
+  - ls
+  - go version
+  - go env
+  - go get golang.org/x/crypto/ssh
+  - go get github.com/codegangsta/cli
+  # Build help
+  - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - conda config --set always_yes yes
+  - conda install -y -q pip
+  - pip install -r .ci/requirements.txt
+
+script:
+  - go run main.go
+  # Build
+  - go build
+  - tar -cf remote-conda-$TRAVIS_BUILD_NUMBER-$TRAVIS_OS_NAME.tar remote-conda
+  - ls
+  # Upload
+  - aws s3 cp remote-conda-$TRAVIS_BUILD_NUMBER-$TRAVIS_OS_NAME.tar s3://danielfrg-ci/appveyor/remote-conda/
