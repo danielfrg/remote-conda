@@ -1,10 +1,16 @@
+
+[![travis-ci](https://api.travis-ci.org/danielfrg/remote-conda.svg)](https://travis-ci.org/danielfrg/remote-conda)
+
+[![appveyor](https://ci.appveyor.com/api/projects/status/github/danielfrg/remote-conda?branch=master&svg=true
+)](https://ci.appveyor.com/project/danielfrg/remote-conda)
+
 # Remote-conda
 
 Install conda packages in remote hosts
 
 ## Installation
 
-
+Look at the [releases page](https://github.com/danielfrg/remote-conda/releases) for binaries.
 
 ## Usage
 
