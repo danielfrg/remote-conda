@@ -23,5 +23,5 @@ test_script:
   - go run main.go
   - go build
   - ls
-  - 7za a -ttar -so remote-conda-{build}.tar remote-conda.exe
+  - 7z a -ttar -so remote-conda-{build}.tar remote-conda.exe
   - ls
