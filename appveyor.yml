@@ -38,7 +38,7 @@ test_script:
   - for /f %%i in ('git describe --tags --dirty --always') do set VERSION=%%i
   - "set NAME_VERSION=remote-conda-%VERSION%"
   - 7z a %NAME_VERSION%-windows.tar remote-conda.exe
-  - aws s3 cp remote-conda-%APPVEYOR_BUILD_NUMBER%.tar s3://danielfrg-ci/remote-conda/
+  - aws s3 cp %NAME_VERSION%-windows.tar s3://danielfrg-ci/remote-conda/
 
 artifacts:
-  - path: remote-conda-%APPVEYOR_BUILD_NUMBER%.tar
+  - path: %NAME_VERSION%-windows.tar
