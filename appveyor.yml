@@ -21,7 +21,7 @@ install:
 
 test_script:
   - go run main.go
-	# Build
+  # Build
   - go build
   - 7z a remote-conda-%APPVEYOR_BUILD_NUMBER%.tar remote-conda.exe
   - ls
