@@ -3,7 +3,6 @@ package main
 import "os"
 import "fmt"
 import "time"
-// import "sort"
 
 import "golang.org/x/crypto/ssh"
 import "github.com/codegangsta/cli"
