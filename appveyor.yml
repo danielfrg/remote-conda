@@ -26,7 +26,7 @@ install:
   # Build help
   - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
   - conda config --set always_yes yes --set changeps1 no
-  - conda install -y pip
+  - conda install -y -q pip
   - pip install -r .ci/requirements.txt
 
 test_script:
