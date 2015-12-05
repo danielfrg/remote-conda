@@ -4,6 +4,11 @@ os: Windows Server 2012 R2
 
 environment:
   GOPATH: c:\gopath
+  MINICONDA: C:\Miniconda3
+  AWS_ACCESS_KEY_ID:
+    secure: FyVhmLyhVgKSzRvW6LSa3r9qz9KQ1k6Ih6scZ5StF1k=
+  AWS_SECRET_ACCESS_KEY:
+    secure: KdFL1m0XLOrBhoAqXDuaM/cQrmZ1diTH1xj7UG1Djf6wWy07uxKAusRa/PY7zpyz
 
 clone_folder: c:\gopath\src\github.com\danielfrg\remote-conda
 
@@ -18,6 +23,10 @@ install:
   - go env
   - go get golang.org/x/crypto/ssh
   - go get github.com/codegangsta/cli
+  # Build help
+  - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - conda config --set always_yes yes --set changeps1 no
+  - pip install -r .ci/requirements.txt
 
 test_script:
   - go run main.go
@@ -25,6 +34,8 @@ test_script:
   - go build
   - 7z a remote-conda-%APPVEYOR_BUILD_NUMBER%.tar remote-conda.exe
   - ls
+  # Upload
+  - aws s3 cp remote-conda-%APPVEYOR_BUILD_NUMBER%.tar s3://danielfrg-ci/appveyor/remote-conda/
 
 artifacts:
   - path: remote-conda-%APPVEYOR_BUILD_NUMBER%.tar
