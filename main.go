@@ -153,7 +153,6 @@ func groupBy(clients []*SSHClient.SSHClient, f func(*SSHClient.SSHClient) string
 	return ret
 }
 
-
 // Delete Empty strings from a Slice or Array
 func deleteEmpty(s []string) []string {
     var r []string
@@ -169,7 +168,7 @@ func main() {
 	app := cli.NewApp()
   app.Name = "Remote Conda"
   app.Usage = "Install conda packages in remote hosts"
-  app.Version = "0.1.0"
+  app.Version = "1.0.0rc1"
 
 	defaultFlags := []cli.Flag {
 	  cli.StringSliceFlag{
