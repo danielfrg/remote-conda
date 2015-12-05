@@ -32,8 +32,8 @@ script:
   - go build
   - ls
   # Upload
-  - echo VERSION=$(git describe --tags --dirty --always)
-  - echo NAME_VERSION=remote-conda-$VERSION
+  - export VERSION=$(git describe --tags --dirty --always)
+  - export NAME_VERSION=remote-conda-$VERSION
   - tar -cf $NAME_VERSION-$TRAVIS_OS_NAME.tar remote-conda
   - ls
   - aws s3 cp $NAME_VERSION-$TRAVIS_OS_NAME.tar s3://danielfrg-ci/remote-conda/
