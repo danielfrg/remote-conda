@@ -36,7 +36,7 @@ test_script:
   - 7z a remote-conda-%APPVEYOR_BUILD_NUMBER%.tar remote-conda.exe
   - ls
   # Upload
-  - aws s3 cp remote-conda-%APPVEYOR_BUILD_NUMBER%.tar s3://danielfrg-ci/appveyor/remote-conda/
+  - aws s3 cp remote-conda-%APPVEYOR_BUILD_NUMBER%.tar s3://danielfrg-ci/remote-conda/appveyor/
 
 artifacts:
   - path: remote-conda-%APPVEYOR_BUILD_NUMBER%.tar

@@ -25,4 +25,4 @@ script:
   - tar -cf remote-conda-$TRAVIS_BUILD_NUMBER-$TRAVIS_OS_NAME.tar remote-conda
   - ls
   # Upload
-  - aws s3 cp remote-conda-$TRAVIS_BUILD_NUMBER-$TRAVIS_OS_NAME.tar s3://danielfrg-ci/appveyor/remote-conda/
+  - aws s3 cp remote-conda-$TRAVIS_BUILD_NUMBER-$TRAVIS_OS_NAME.tar s3://danielfrg-ci/remote-conda/travis-ci/
