@@ -7,7 +7,7 @@ environment:
 
 clone_folder: c:\gopath\src\github.com\danielfrg\remote-conda
 
-# Not a .NET project
+# Not a .NET project building on test_script
 build: false
 
 install:
@@ -21,6 +21,7 @@ install:
 
 test_script:
   - go run main.go
+	# Build
   - go build
   - 7z a remote-conda-%APPVEYOR_BUILD_NUMBER%.tar remote-conda.exe
   - ls
