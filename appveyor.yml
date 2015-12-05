@@ -40,6 +40,3 @@ test_script:
   - 7z a %NAME_VERSION%-windows.tar remote-conda.exe
   - ls
   - aws s3 cp %NAME_VERSION%-windows.tar s3://danielfrg-ci/remote-conda/
-
-artifacts:
-  - path: %NAME_VERSION%-windows.tar
