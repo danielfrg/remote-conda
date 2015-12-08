@@ -7,13 +7,16 @@ os:
 sudo: false
 
 install:
+  - export GO15VENDOREXPERIMENT=1
+  - export PATH=$GOPATH/bin:$PATH
   - echo $PATH
   - echo $GOPATH
+  - echo $GO15VENDOREXPERIMENT
   - ls
   - go version
   - go env
-  - go get golang.org/x/crypto/ssh
-  - go get github.com/codegangsta/cli
+  - go get github.com/Masterminds/glide
+  - glide install
   # Build help
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
