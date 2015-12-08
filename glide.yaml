@@ -1,6 +1,4 @@
 package: main
 import:
-- package: golang.org/x/crypto
-  subpackages:
-  - /ssh
+- package: golang.org/x/crypto/ssh
 - package: github.com/codegangsta/cli
