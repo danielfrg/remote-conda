@@ -33,6 +33,7 @@ install:
   - pip install -r .ci/requirements.txt
 
 script:
+  - go test $(go list ./... | grep -v /vendor/)
   - go run main.go
   # Build
   - go build
