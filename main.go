@@ -1,38 +1,34 @@
 package main
 
-import "os"
-import "fmt"
-import "time"
+import (
+  "os"
+  "fmt"
+  "time"
+  "strings"
 
-import "golang.org/x/crypto/ssh"
-import "github.com/codegangsta/cli"
-import "github.com/danielfrg/remote-conda/ssh"
-
-func list(c *cli.Context) {
-	condaPath := c.String("conda")
-	cmd := fmt.Sprintf("%s %s", condaPath, "list")
-
-	clients := makeClients(cmd, c)
-	results := make(chan bool, len(clients))
-
-	execClients(clients, results)
-	waitResults(clients, results, c)
-	printResults(clients, c)
-}
+  "golang.org/x/crypto/ssh"
+  "github.com/codegangsta/cli"
+  "github.com/danielfrg/remote-conda/conda"
+  "github.com/danielfrg/remote-conda/ssh"
+)
 
 func install(c *cli.Context) {
-	condaPath := c.String("conda")
-	cmd := fmt.Sprintf("%s %s %s", condaPath, "install", "-y -q")
-
-	args := c.Args()
-	if len(args) == 0 {
-		fmt.Fprintln(os.Stderr, "Error: No packages provided")
+	cliArgs := c.Args()
+	if len(cliArgs) == 0 {
+		fmt.Fprintln(os.Stderr, "Error: too few arguments, must supply package specs")
     os.Exit(1)
 	}
 
-	for _, arg := range args {
-		cmd = cmd + " " + arg
-	}
+	args := make(map[string]string)
+	args["conda"] = c.String("conda")
+	args["name"] = c.String("name")
+	args["path"] = c.String("path")
+	args["channels"] = strings.Join(c.StringSlice("channel"), ",")
+	args["override-channels"] = c.String("override-channels")
+	args["dry"] = c.String("dry")
+	args["copy"] = c.String("copy")
+	cmd := conda.Install(args, cliArgs...)
+	fmt.Println("Executing command:", cmd)
 
 	clients := makeClients(cmd, c)
 	results := make(chan bool, len(clients))
@@ -43,18 +39,40 @@ func install(c *cli.Context) {
 }
 
 func remove(c *cli.Context) {
-	condaPath := c.String("conda")
-	cmd := fmt.Sprintf("%s %s %s", condaPath, "remove", "-y -q")
-
-	args := c.Args()
-	if len(args) == 0 {
-		fmt.Fprintln(os.Stderr, "Error: No packages provided")
+	cliArgs := c.Args()
+	if len(cliArgs) == 0 {
+		fmt.Fprintln(os.Stderr, "Error: too few arguments, must supply package specs")
     os.Exit(1)
 	}
 
-	for _, arg := range args {
-		cmd = cmd + " " + arg
-	}
+	args := make(map[string]string)
+	args["conda"] = c.String("conda")
+	args["name"] = c.String("name")
+	args["path"] = c.String("path")
+	args["channels"] = strings.Join(c.StringSlice("channel"), ",")
+	args["override-channels"] = c.String("override-channels")
+	args["dry"] = c.String("dry")
+	cmd := conda.Remove(args)
+	fmt.Println("Executing command:", cmd)
+
+	clients := makeClients(cmd, c)
+	results := make(chan bool, len(clients))
+
+	execClients(clients, results)
+	waitResults(clients, results, c)
+	printResults(clients, c)
+}
+
+func list(c *cli.Context) {
+	args := make(map[string]string)
+	args["conda"] = c.String("conda")
+	args["name"] = c.String("name")
+	args["path"] = c.String("path")
+	args["no-pip"] = c.String("no-pip")
+	args["canonical"] = c.String("canonical")
+	args["explicit"] = c.String("explicit")
+	cmd := conda.List(args)
+	fmt.Println("Executing command:", cmd)
 
 	clients := makeClients(cmd, c)
 	results := make(chan bool, len(clients))
@@ -183,36 +201,92 @@ func main() {
 	    Name: "pkey, k",
 	    Usage: "Private Key",
 	  },
-		cli.StringFlag{
-	    Name: "conda, p",
-	    Value: "/opt/anaconda/bin/conda",
-	    Usage: "Conda path",
-	  },
 		cli.IntFlag{
 	    Name: "timeout, t",
 	    Value: 300,
 	    Usage: "Timeout",
 	  },
+		cli.StringFlag{
+	    Name: "conda",
+	    Value: "/opt/anaconda/bin/conda",
+	    Usage: "Conda path",
+	  },
+		cli.StringFlag{
+	    Name: "name, n",
+	    Usage: "Name of the environment",
+	  },
+		cli.StringFlag{
+	    Name: "path, p",
+	    Usage: "Full path to environment prefix",
+	  },
 	}
 
-	app.Commands = []cli.Command{
-		{
-			Name:     "list",
-			Usage:    "List conda packages",
-			Action:   list,
-			Flags:    defaultFlags,
+	channelsFlags := []cli.Flag {
+		cli.StringSliceFlag{
+			Name: "channel, c",
+			Usage: "Additional channel to search for packages",
 		},
+		cli.BoolFlag{
+	    Name: "override-channels",
+	    Usage: "Do not search default or .condarc channels. Requires --channel.",
+	  },
+	}
+
+	dryFlag := cli.BoolFlag{
+		Name: "dry-run",
+		Usage: "Only display what would have been done",
+	}
+
+	copyFlag := cli.BoolFlag{
+		Name: "copy",
+		Usage: "Install all packages using copies instead of hard- or soft-linking",
+	}
+
+	installFlags := append(defaultFlags, channelsFlags...)
+	installFlags = append(installFlags, dryFlag)
+	installFlags = append(installFlags, copyFlag)
+
+	removeFlags := append(defaultFlags, channelsFlags...)
+	removeFlags = append(defaultFlags, dryFlag)
+
+	listFlags := defaultFlags
+
+	nopipFlag := cli.BoolFlag{
+		Name: "no-pip",
+		Usage: "Do not include pip-only installed packages",
+	}
+	listFlags = append(listFlags, nopipFlag)
+
+	canonicalFlag := cli.BoolFlag{
+		Name: "canonical",
+		Usage: "Output canonical names of packages only. Implies --no-pip",
+	}
+	listFlags = append(listFlags, canonicalFlag)
+
+	explicitFlag := cli.BoolFlag{
+		Name: "explicit",
+		Usage: "List explicitly all installed conda packaged with URL",
+	}
+	listFlags = append(listFlags, explicitFlag)
+
+	app.Commands = []cli.Command{
 		{
 			Name:     "install",
 			Usage:    "Install conda packages",
 			Action:   install,
-			Flags:    defaultFlags,
+			Flags:    installFlags,
 		},
 		{
 			Name:     "remove",
 			Usage:    "Remove conda packages",
 			Action:   remove,
-			Flags:    defaultFlags,
+			Flags:    removeFlags,
+		},
+		{
+			Name:     "list",
+			Usage:    "List conda packages",
+			Action:   list,
+			Flags:    listFlags,
 		},
 	}
 
