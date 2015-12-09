@@ -41,6 +41,8 @@ script:
   # Upload
   - export VERSION=$(git describe --tags --dirty --always)
   - export NAME_VERSION=remote-conda-$VERSION
-  - tar -cvzf $NAME_VERSION-$TRAVIS_OS_NAME.tar.gz remote-conda
+  - export FILENAME=$NAME_VERSION-$TRAVIS_OS_NAME
+  - tar -cvzf $FILENAME.tar.gz remote-conda
   - ls
-  - aws s3 cp $NAME_VERSION-$TRAVIS_OS_NAME.tar.gz s3://danielfrg-ci/remote-conda/
+  - aws s3 cp $FILENAME.tar.gz s3://danielfrg-ci/remote-conda/
+  - curl -T $FILENAME.tar.gz -udanielfrg:$BINTRAY_KEY https://api.bintray.com/content/danielfrg/remote-conda/remote-conda/$VERSION/$FILENAME.tar.gz
