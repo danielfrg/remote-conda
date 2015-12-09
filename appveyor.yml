@@ -6,9 +6,9 @@ environment:
   GOPATH: c:\gopath
   MINICONDA: C:\Miniconda3
   AWS_ACCESS_KEY_ID:
-    secure: I/8C3iEP0maAqAJIOJxGC5NQavxZCN1W7wrInJRMlts=
+    secure: xalXUrYrSfaJPK9k7rn0CrdmTK/2WcZzHP28wXD+VvM=
   AWS_SECRET_ACCESS_KEY:
-    secure: cSycCaMsrrbYY/IWG0tp2rlb1k6UvtPRUH9EHpv/3gONiX84rjfaA8rlyqeCjuDw
+    secure: DDabqC3dvAnpkUXK5+r/htaVvV4wPonAWF9iBC6K4WMtUrDZJm5EUQ+SBPxOQAW8
 
 clone_folder: c:\gopath\src\github.com\danielfrg\remote-conda
 
