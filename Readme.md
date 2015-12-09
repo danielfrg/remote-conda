@@ -15,10 +15,10 @@ Look at the [releases page](https://github.com/danielfrg/remote-conda/releases) 
 
 `remote-conda` is a basic CLI that has the basic conda commands: `install`, `remove`, `list` and follows the same API as conda with some extra options:
 
-Host/IP (--host/-x). Can be used multiple times
-User (--user/-u) is the username to ssh into the hosts
-Private key (--pkey/-k) to ssh into the hosts
-Pip Path (--conda/-p), useful to manage packages in multiple virtual environments. Default: `/opt/anaconda/bin/conda`
+- Host/IP (--host/-x). Can be used multiple times
+- User (--user/-u) is the username to ssh into the hosts
+- Private key (--pkey/-k) to ssh into the hosts
+- Pip Path (--conda/-p), useful to manage packages in multiple virtual environments. Default: `/opt/anaconda/bin/conda`
 
 ## Examples:
 
