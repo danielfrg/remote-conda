@@ -1,5 +1,8 @@
 language: go
 
+go:
+  - tip
+
 os:
   - linux
   - osx
