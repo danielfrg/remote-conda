@@ -45,4 +45,3 @@ script:
   - tar -cvzf $FILENAME.tar.gz remote-conda
   - ls
   - aws s3 cp $FILENAME.tar.gz s3://danielfrg-ci/remote-conda/
-  - curl -T $FILENAME.tar.gz -udanielfrg:$BINTRAY_KEY https://api.bintray.com/content/danielfrg/remote-conda/remote-conda/$VERSION/$FILENAME.tar.gz
