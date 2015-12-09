@@ -23,8 +23,8 @@ install:
   - ls
   - go version
   - go env
-  - go get github.com/Masterminds/glide
-  - glide install
+  - go get github.com/tools/godep
+  - godep restore
   # Build help
   - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
   - conda config --set always_yes yes --set changeps1 no

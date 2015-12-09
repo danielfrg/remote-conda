@@ -18,8 +18,8 @@ install:
   - ls
   - go version
   - go env
-  - go get github.com/Masterminds/glide
-  - glide install
+  - go get github.com/tools/godep
+  - godep restore
   # Build help
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
