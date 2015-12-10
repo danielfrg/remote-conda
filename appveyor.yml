@@ -6,6 +6,10 @@ environment:
   GOPATH: c:\gopath
   MINICONDA: C:\Miniconda3
 
+branches:
+  only:
+    - master
+
 clone_folder: c:\gopath\src\github.com\danielfrg\remote-conda
 
 # Not a .NET project building on test_script
