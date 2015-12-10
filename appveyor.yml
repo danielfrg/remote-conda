@@ -5,10 +5,6 @@ os: Windows Server 2012 R2
 environment:
   GOPATH: c:\gopath
   MINICONDA: C:\Miniconda3
-  AWS_ACCESS_KEY_ID:
-    secure: xalXUrYrSfaJPK9k7rn0CrdmTK/2WcZzHP28wXD+VvM=
-  AWS_SECRET_ACCESS_KEY:
-    secure: DDabqC3dvAnpkUXK5+r/htaVvV4wPonAWF9iBC6K4WMtUrDZJm5EUQ+SBPxOQAW8
 
 clone_folder: c:\gopath\src\github.com\danielfrg\remote-conda
 
