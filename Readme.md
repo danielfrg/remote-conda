@@ -1,8 +1,7 @@
 # Remote-conda
 
 [![travis-ci](https://api.travis-ci.org/danielfrg/remote-conda.svg)](https://travis-ci.org/danielfrg/remote-conda)
-[![appveyor](https://ci.appveyor.com/api/projects/status/github/danielfrg/remote-conda?branch=master&svg=true
-)](https://ci.appveyor.com/project/danielfrg/remote-conda)
+[![appveyor](https://ci.appveyor.com/api/projects/status/github/danielfrg/remote-conda?branch=master&svg=true)](https://ci.appveyor.com/project/danielfrg/remote-conda)
 
 Install conda packages in remote hosts
 
@@ -21,7 +20,7 @@ Look at the [releases page](https://github.com/danielfrg/remote-conda/releases) 
 
 ## Examples:
 
-```
+```bash
 $ remote-conda install numpy -u ubuntu -k ~/.ssh/key.pem -x myhost1
 $ remote-conda remove numpy -u ubuntu -k ~/.ssh/key.pem -x myhost1 -x myhost2
 
